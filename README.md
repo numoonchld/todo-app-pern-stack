@@ -32,3 +32,6 @@ workbench for https://youtu.be/ldYcgPKEZC8
 - ensure the database and the tables have been setup on the database already for this PERN stack 
     - run the commands stored in the `database.sql` in the `psql` command line after logging in to the docker 
 
+## references and solutions to errors 
+
+- [connect ECONNREFUSED 127.0.0.1:5432](https://stackoverflow.com/a/59341636/3161273)
