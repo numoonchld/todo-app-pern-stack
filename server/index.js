@@ -67,7 +67,7 @@ app.get("/todos/:id", async (req,res) => {
         // console.log(req.params)
         const { id } = req.params
         const singleTodo = await pool.query(
-            'SELECT * FRoM todo WHERE id = $1',
+            'SELECT * FROM todo WHERE id = $1',
             [id]
         )
                 
