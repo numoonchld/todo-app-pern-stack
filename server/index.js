@@ -22,11 +22,28 @@ app.use(express.json()) // get only body of request from client side
 
 app.post("/todos", async (req,res) => {
 
+    try {
+
+        console.log(req.body)
+
+    } catch (error) {
+        console.log(error.message)
+    }
+
+
+
 })
 
 // get all todos
 
 app.get("/todos", async (req,res) => {
+
+    try {
+        
+    } catch (error) {
+        console.log(error.message)
+    }
+
 
 })
 
@@ -34,15 +51,30 @@ app.get("/todos", async (req,res) => {
 
 app.put("/todos/:id", async (req,res) => {
 
+    try {
+        
+        
+    } catch (error) {
+        console.log(error.message)
+    }
+
+
 })
 
 // delete a todo
 app.delete("/todos/:id", async (req,res) => {
 
+    try {
+        
+    } catch (error) {
+        console.log(error.message)
+    }
+
+
 })
 
 // SERVER LISTEN ---------------------------------------------------------
 // start server listen 
-app.listen(5000, '0.0.0.0',()=>{
+app.listen(3000, '0.0.0.0',()=>{
     console.log('NodeJS server started on port 3000')
 })
