@@ -27,15 +27,15 @@ app.post("/todos", async (req,res) => {
         console.log(req.body)
         const { description } = req.body // client-side received payload
         const addTodo = await pool.query(
-            "INSERT INTO todo (description) VALUES($1)", 
+            "INSERT INTO todo (description) VALUES($1) RETURNING * ", 
             [description]
-            )
+        )
+        
+        res.json(addTodo.rows)
 
     } catch (error) {
         console.log(error.message)
     }
-
-
 
 })
 
@@ -44,6 +44,12 @@ app.post("/todos", async (req,res) => {
 app.get("/todos", async (req,res) => {
 
     try {
+
+        const allTodos = await pool.query(
+            'SELECT * FROM todo'
+        )
+        
+        res.json(allTodos.rows)
         
     } catch (error) {
         console.log(error.message)
@@ -52,12 +58,45 @@ app.get("/todos", async (req,res) => {
 
 })
 
-// update a todo
+// get a single todo
+
+app.get("/todos/:id", async (req,res) => {
+
+    try {
+        
+        // console.log(req.params)
+        const { id } = req.params
+        const singleTodo = await pool.query(
+            'SELECT * FRoM todo WHERE id = $1',
+            [id]
+        )
+                
+        res.json(singleTodo.rows)
+
+    } catch (error) {
+        console.log(error.message)
+    }
+
+
+})
+
+// update a single todo
 
 app.put("/todos/:id", async (req,res) => {
 
     try {
         
+        // console.log(req.params)
+        const { id } = req.params
+        const { description } = req.body
+
+        const updateTodo = await pool.query(
+            'UPDATE todo SET description = $1 WHERE id = $2',
+            [description, id]
+        )
+
+        res.json("Todo was updated!")
+                
         
     } catch (error) {
         console.log(error.message)
@@ -70,6 +109,14 @@ app.put("/todos/:id", async (req,res) => {
 app.delete("/todos/:id", async (req,res) => {
 
     try {
+
+        const { id } = req.params
+        const removeTodo = await pool.query(
+            'DELETE FROM todo  WHERE id=$1',
+            [id]
+        )
+
+        res.json('Todo was removed')
         
     } catch (error) {
         console.log(error.message)
