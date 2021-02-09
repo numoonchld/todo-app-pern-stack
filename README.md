@@ -1,8 +1,6 @@
 # todo-app-pern-stack
 workbench for https://youtu.be/ldYcgPKEZC8
 
-
-
 ## server setup
 
 - `docker-compose run --rm --service-ports node_dev_env`
@@ -36,6 +34,12 @@ workbench for https://youtu.be/ldYcgPKEZC8
 
 - `npx create-react-app . --use-npm` 
     - the Dockerfile might need to be moved out before running this command, just paste it back after the base app has been bootstrapped 
+
+
+## run the developmental app 
+
+- `docker-compose up`
+    - automatically starts everything 
 
 
 ## references and solutions to errors 

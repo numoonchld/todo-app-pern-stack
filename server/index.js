@@ -24,7 +24,6 @@ app.post("/todos", async (req,res) => {
 
     try {
 
-        console.log(req.body)
         const { description } = req.body // client-side received payload
         const addTodo = await pool.query(
             "INSERT INTO todo (description) VALUES($1) RETURNING * ", 
