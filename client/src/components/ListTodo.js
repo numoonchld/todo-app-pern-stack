@@ -18,6 +18,20 @@ const ListTodo = () => {
         getTodos()
     },[])
 
+    const deleteTodo = async (id) => {
+        try {
+            const deleteTodo = await fetch(`http://localhost:3000/todos/${id}`,{
+                method: 'DELETE',
+            })
+
+            setTodos(todos.filter( todo => todo.id !== id))
+
+        
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
+
     console.log(todos)
 
     return <Fragment>
@@ -41,7 +55,7 @@ const ListTodo = () => {
                     <tr key={todo.id}>
                         <td>{todo.description}</td>
                         <td>Edit</td>
-                        <td>Delete</td>
+                        <td><button className="btn btn-danger" onClick={()=>deleteTodo(todo.id)}>Delete</button></td>
                     </tr>
                 )}
 
