@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react'
+import EditTodo from './EditTodo'
 
 const ListTodo = () => {
 
@@ -32,7 +33,7 @@ const ListTodo = () => {
         }
     }
 
-    console.log(todos)
+    // console.log(todos)
 
     return <Fragment>
         <table className="table table-striped text-center">
@@ -54,7 +55,7 @@ const ListTodo = () => {
                 {todos.map(todo => 
                     <tr key={todo.id}>
                         <td>{todo.description}</td>
-                        <td>Edit</td>
+                        <td><EditTodo todo={todo}/></td>
                         <td><button className="btn btn-danger" onClick={()=>deleteTodo(todo.id)}>Delete</button></td>
                     </tr>
                 )}
