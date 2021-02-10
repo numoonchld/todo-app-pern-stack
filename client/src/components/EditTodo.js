@@ -1,19 +1,54 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useStateCallback, useEffect } from 'react'
+import { Button, Grid, Modal, TextField, makeStyles, Typography } from '@material-ui/core'
 
-const EditTodo = ({todo}) => {
+
+
+const useStyles = makeStyles((theme) => ({
+    paper: {
+        position: 'absolute',
+        width: 500,
+        backgroundColor: theme.palette.background.paper,
+        border: '2px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+    },
+}));
+
+const EditTodo = ({ todo }) => {
+    const classes = useStyles();
     const [description, setDescription] = useState(todo.description)
-    // console.log(todo)
+    const [modalOpen, setModalOpen] = useState(false)
+
+    const modalStyle = {
+        top: 60,
+        left: 60,
+        transform: `translate(60%, 60%)`,
+      }
+
+    const openEditDialog = () => {
+        setModalOpen(true)
+    }
+
+    const closeEditDialog = () => {
+        setModalOpen(false)
+    }
+
+    useEffect(() => {
+        if (modalOpen === false) {
+            setDescription(todo.description)
+        }
+    }, [modalOpen])
 
     const updateDescription = async event => {
         event.preventDefault()
         try {
-            const body = {description}
+            const body = { description }
             const response = await fetch(`http://localhost:3000/todos/${todo.id}`, {
                 method: 'PUT',
-                headers: {"Content-type": 'application/JSON'},
+                headers: { "Content-type": 'application/JSON' },
                 body: JSON.stringify(body)
             })
-            
+
             window.location = '/'
 
         } catch (error) {
@@ -22,31 +57,28 @@ const EditTodo = ({todo}) => {
     }
 
     return <Fragment>
+        <Button variant="outlined" color="primary" onClick={openEditDialog}> Edit </Button>
 
-        <button type="button" className="btn btn-warning" data-toggle="modal" data-target={`#id${todo.id}`} >
-            Edit
-        </button>
-
-
-        <div className="modal fade" id={`id${todo.id}`} tab-index="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" onClick={() => setDescription(todo.description)} >
-            <div className="modal-dialog" role="document">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
-                        <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={() => setDescription(todo.description)}>
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div className="modal-body">
-                        <input type="text" className="form-control" value={description} onChange={event=> setDescription(event.target.value)}/>
-                    </div>
-                    <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={() => setDescription(todo.description)}>Close</button>
-                        <button type="button" className="btn btn-warning" onClick={event=>updateDescription(event)}>Save Changes</button>
-                    </div>
+        <Modal
+            open={modalOpen}
+            onClose={closeEditDialog}
+            aria-labelledby="editModal-title"
+            aria-describedby="editModal-description"
+        >
+            <Grid container direction="row" justify="center" alignItems="center">
+                <div style={modalStyle} className={classes.paper}>
+                    <Typography variant="h6" align="center"> Editing TODO Item </Typography>
+                    <TextField
+                        style={{ "width": 500 }}
+                        variant="outlined"
+                        type="text"
+                        value={description}
+                        onChange={event => setDescription(event.target.value)}
+                        InputProps={{ endAdornment: <Button variant="contained" color="primary" onClick={event => updateDescription(event)} > Save </Button> }}
+                    />
                 </div>
-            </div>
-        </div>
+            </Grid>
+        </Modal>
     </Fragment>
 }
 

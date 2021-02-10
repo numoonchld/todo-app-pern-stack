@@ -1,5 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react'
+import { Button } from '@material-ui/core'
 import EditTodo from './EditTodo'
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@material-ui/core'
 
 const ListTodo = () => {
 
@@ -17,52 +19,57 @@ const ListTodo = () => {
 
     useEffect(() => {
         getTodos()
-    },[])
+    }, [])
 
     const deleteTodo = async (id) => {
         try {
-            const deleteTodo = await fetch(`http://localhost:3000/todos/${id}`,{
+            const deleteTodo = await fetch(`http://localhost:3000/todos/${id}`, {
                 method: 'DELETE',
             })
 
-            setTodos(todos.filter( todo => todo.id !== id))
+            setTodos(todos.filter(todo => todo.id !== id))
 
-        
+
         } catch (error) {
             console.log(error.message)
         }
     }
 
-    // console.log(todos)
+    console.log(todos)
 
     return <Fragment>
-        <table className="table table-striped text-center">
-            <thead>
-                <tr>
-                    <th scope="col">Description</th>
-                    <th scope="col">Edit </th>
-                    <th scope="col">Delete</th>
 
-                </tr>
-            </thead>
-            <tbody>
-                {/*<tr>
+        <Box m={5}>
+            <TableContainer component={Paper}>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell >Description</TableCell>
+                            <TableCell >Edit</TableCell>
+                            <TableCell >Delete</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {/*<tr>
                     <td>Mark</td>
                     <td>Otto</td>
                     <td>@mdo</td>
                 </tr>*/}
 
-                {todos.map(todo => 
-                    <tr key={todo.id}>
-                        <td>{todo.description}</td>
-                        <td><EditTodo todo={todo}/></td>
-                        <td><button className="btn btn-danger" onClick={()=>deleteTodo(todo.id)}>Delete</button></td>
-                    </tr>
-                )}
+                        {todos.map(todo =>
+                            <TableRow key={todo.id}>
+                                <TableCell>{todo.description}</TableCell>
+                                <TableCell><EditTodo todo={todo} /></TableCell>
+                                <TableCell><Button variant="contained" color="secondary" onClick={() => deleteTodo(todo.id)}>Delete</Button></TableCell>
+                            </TableRow>
+                        )}
 
 
-            </tbody>
-        </table>
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </Box>
+
     </Fragment>
 }
 
