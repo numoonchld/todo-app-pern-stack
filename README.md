@@ -1,7 +1,7 @@
 # todo-app-pern-stack
 workbench for https://youtu.be/ldYcgPKEZC8
 
-- this branch uses Bootstrap 4 for the UI elements
+- this branch uses Bootstrap 4 for the UI elements like in the tutorial
 - go to [this](https://github.com/numoonchld/todo-app-pern-stack/tree/material-ui-front-end-version) branch for the Material-UI implementation
 
 ## server setup
